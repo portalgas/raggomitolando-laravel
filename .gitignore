@@ -27,3 +27,5 @@ config/lunar
 public/build
 meilisearch/
 .phpunit.cache/test-results
+
+raggomitolando.txt
