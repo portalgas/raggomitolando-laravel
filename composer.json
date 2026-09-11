@@ -21,10 +21,12 @@
         "lunarphp/lunar": "^1.0@beta",
         "lunarphp/stripe": "^1.0@beta",
         "lunarphp/table-rate-shipping": "^1.0@beta",
+        "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^1.6",
         "predis/predis": "^2.2"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^4.4",
         "fakerphp/faker": "^1.23",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0|^8.1",

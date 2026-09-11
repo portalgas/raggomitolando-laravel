@@ -25,7 +25,8 @@
 </head>
 
 <body class="antialiased text-gray-900">
-    @livewire('components.navigation')
+@livewire('components.menu-top')
+@livewire('components.navigation')
 
     <main>
         {{ $slot }}

@@ -16,8 +16,21 @@
                        href="{{ route('collection.view', $collection->defaultUrl->slug) }}"
                        wire:navigate
                     >
-                        {{ $collection->translateAttribute('name') }}
+                        {{ $collection->translateAttribute('name') }} 
                     </a>
+
+                    {{-- Sotto-menu (Dropdown Figli) --}}
+                    @if($collection->children->count())
+                        <div class="">
+                            @foreach($collection->children as $child)
+                                <a href="/collections/{{ $child->defaultUrl?->slug }}" 
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    {{ $child->translateAttribute('name') }}
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+                                        
                 @endforeach
             </nav>
         </div>
