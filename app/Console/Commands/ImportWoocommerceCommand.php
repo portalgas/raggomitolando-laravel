@@ -73,8 +73,7 @@ class ImportWoocommerceCommand extends Command
                         'status'          => 'published', // 'published' o 'draft'
                         'attribute_data'  => [
                             'name' => new TranslatedText(collect([
-                                'it' => new Text($woo->name),
-                                'en' => new Text($woo->name),
+                                'it' => new Text($woo->name)
                             ])),
                             'description' => new TranslatedText(collect([
                                 'it' => new Text($description),
