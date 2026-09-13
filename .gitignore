@@ -7,6 +7,7 @@
 /public/js/app/components
 /public/storage
 /storage/*.key
+/storage/media-library/temp
 /vendor
 .env
 .env.backup
