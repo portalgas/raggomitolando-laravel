@@ -1,18 +1,34 @@
 [
     {
-        "name": "Shoes",
-        "description": "Collection of Shoes"
+        "name": "Filati",
+        "description": "Collezioni di filati"
     },
     {
-        "name": "Trousers",
-        "description": "Collection of Trousers"
+        "name": "Ferri e uncinetto",
+        "description": "Collezioni di ferri e uncinetto"
     },
     {
-        "name": "Hoodies",
-        "description": "Collection of Hoodies"
+        "name": "Accessori",
+        "description": "Collezioni di accessori"
     },
     {
-        "name": "Sale",
-        "description": "50% OFF Selected Items"
+        "name": "Libri",
+        "description": "Libri"
+    },
+    {
+        "name": "Principianti",
+        "description": ""
+    },
+    {
+        "name": "Idee regalo",
+        "description": ""
+    },
+    {
+        "name": "Kit",
+        "description": ""
+    },
+    {
+        "name": "Offerte",
+        "description": ""
     }
 ]

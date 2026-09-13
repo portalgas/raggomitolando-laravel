@@ -5,6 +5,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
+use Lunar\Models\Brand;
 use Lunar\Models\Product;
 use Lunar\Models\ProductVariant;
 use Lunar\Models\ProductOption;
@@ -12,6 +13,8 @@ use Lunar\Models\ProductType;
 use Lunar\Models\ProductOptionValue;
 use Lunar\Models\Currency;
 use Lunar\Models\TaxClass;
+use Lunar\Models\Tag;
+use Lunar\Models\Language;
 use Lunar\FieldTypes\Text;
 use Lunar\FieldTypes\TranslatedText;
 use App\Models\Woo;
@@ -47,14 +50,16 @@ class ImportWoocommerceCommand extends Command
         $this->info("woos truncate");
        //  $this->_catalogo_truncate();
 */
+        $defaultLanguage = Language::getDefault();
         $productType = ProductType::first() ?? ProductType::create(['name' => 'Generale']);
         $currency    = Currency::getDefault();
         $taxClass    = TaxClass::getDefault();
         $colorOption = ProductOption::where('handle', 'colour')->first();
 
         $woo_child = null;
-        $woos = Woo::whereNull('parent_post_id')->where('id', 1)->get();
-        $this->info("Trovati {$woos->count()} articoli in woos");
+        $woos = Woo::whereNull('parent_post_id')
+                                    // ->where('id', '>', 1)
+                                    ->get();
         try {
             foreach ($woos as $numResult => $woo) {
                 
@@ -69,7 +74,7 @@ class ImportWoocommerceCommand extends Command
                     // Crea il Prodotto principale
                     $product = Product::create([
                         'product_type_id' => $productType->id,
-                        'brand_id'   => 1,
+                        'brand_id'   => $this->_getBrandId($woo->name),
                         'status'          => 'published', // 'published' o 'draft'
                         'attribute_data'  => [
                             'name' => new TranslatedText(collect([
@@ -77,12 +82,26 @@ class ImportWoocommerceCommand extends Command
                             ])),
                             'description' => new TranslatedText(collect([
                                 'it' => new Text($description),
-                            ])),
+                            ]))
                         ],
                     ]);
 
                     $this->_setImages($woo->imgs, $product);
 
+                    $this->_setTags($woo->tag, $product);
+
+                    /*
+                     * lo crea in automatico con il nome
+                    $product->urls()->create([
+                        'language_id' => $defaultLanguage->id,
+                        'slug'        => $woo->slug,
+                        'default'     => true
+                    ]);
+                    */
+
+                    /*
+                     * varianti
+                     */
                     $woo_childs = Woo::where('parent_post_id', $woo->post_id)->get();
                     if($woo_childs->count()>0) {
                         /*
@@ -306,5 +325,65 @@ class ImportWoocommerceCommand extends Command
             if(!empty($variant))
                 $variant->images()->attach($media->id);
         }
+    }
+
+    private function _setTags($tags, $product) {
+
+        if(empty($tags))
+            return true;
+    
+        $_tags = [];
+        if (str_contains($tags, ',')) 
+            $_tags = explode(',', $tags);    
+        else 
+            $_tags[] = $tags;
+
+        foreach($_tags as $tag) {
+            $tag = Tag::firstOrCreate([
+                'value' => $tag
+            ]);
+
+            $product->tags()->syncWithoutDetaching([$tag->id]);
+        }
+    }
+
+    private function _getBrandId($name) {
+
+        $brands = [
+                'Addì',
+                'Adriafil',
+                'Borgo de\' Pazzi',
+                'Dark Omen Yarn',
+                'DMC',
+                'Drops', // 'Drops Design',
+                'Knit Pro',
+                'Laines du nord',
+                'Lana Gatto',
+                'Pony',
+                'Prym',
+                'Sesia',
+                'Sibillana'                                  
+        ];
+
+        $result = null; 
+        $name = strtolower($name);
+        foreach($brands as $brand) {
+            $brand = strtolower($brand);
+            if (str_contains($name, $brand)) {
+                $result = $brand;
+                // dump($result);
+                break;
+            }
+        }
+        
+        if(!empty($result)) {
+            $brand = Brand::firstOrCreate([
+                'name' => $result,
+            ]);
+            
+            $result = $brand->id;
+        }
+
+        return $result;
     }
 }
