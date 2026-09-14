@@ -26,10 +26,10 @@ class CollectionSeeder extends AbstractSeeder
                     'collection_group_id' => $collectionGroup->id,
                     'attribute_data' => [
                         'name' => new TranslatedText([
-                            'en' => new Text($collection->name),
+                            'it' => new Text($collection->name),
                         ]),
                         'description' => new TranslatedText([
-                            'en' => new Text($collection->description),
+                            'it' => new Text($collection->description),
                         ]),
                     ],
                 ]);

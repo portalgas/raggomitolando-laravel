@@ -13,6 +13,14 @@ class LanguageSeeder extends Seeder
      */
     public function run(): void
     {
+        // sovrascrivo perche' crea altre entity (ex collection) con id 1
+        $english = Language::where('code', 'en')->first();
+
+        if ($english) {
+            $english->update(['name' => 'Italiano', 'code' => 'it']);
+        }
+
+        /*
         $italian = Language::firstOrCreate(
             ['code' => 'it'],
             [
@@ -31,5 +39,6 @@ class LanguageSeeder extends Seeder
             // Rimuovi solo il flag di default se desideri conservare il record
             // $english->update(['default' => false]);
         }
+            */
     }
 }

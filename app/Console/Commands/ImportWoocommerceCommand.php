@@ -11,6 +11,8 @@ use Lunar\Models\ProductVariant;
 use Lunar\Models\ProductOption;
 use Lunar\Models\ProductType;
 use Lunar\Models\ProductOptionValue;
+use Lunar\Models\Collection;
+use Lunar\Models\Url;
 use Lunar\Models\Currency;
 use Lunar\Models\TaxClass;
 use Lunar\Models\Tag;
@@ -38,14 +40,18 @@ class ImportWoocommerceCommand extends Command
         $filename = $this->argument('filename');
         $delimiter = $this->option('delimiter');
         $relativePath = 'temp/' . $filename;
+
+        $woos = Woo::first();
+        if(empty($woos)) {
+            $handle = $this->_open_file($relativePath);
+            if(!$handle)
+                return Command::FAILURE;
+    
+            if(!$this->_woos_insert($handle, $delimiter))
+                return Command::FAILURE;
+        }
+
 /*
-        $handle = $this->_open_file($relativePath);
-        if(!$handle)
-            return Command::FAILURE;
-
-        if(!$this->_woos_insert($handle, $delimiter))
-            return Command::FAILURE;
-
         Woo::truncate();
         $this->info("woos truncate");
        //  $this->_catalogo_truncate();
@@ -58,7 +64,7 @@ class ImportWoocommerceCommand extends Command
 
         $woo_child = null;
         $woos = Woo::whereNull('parent_post_id')
-                                    // ->where('id', '>', 1)
+                                    ->where('id', '=', 1)
                                     ->get();
         try {
             foreach ($woos as $numResult => $woo) {
@@ -67,10 +73,6 @@ class ImportWoocommerceCommand extends Command
 
                 DB::transaction(function () use ($woo, $productType, $currency, $taxClass, $colorOption) {
         
-                    $description = null;
-                    if(!empty($woo->descri_short) || !empty($woo->descri))
-                        $description = trim($woo->descri_short.' '.$woo->descri);
-
                     // Crea il Prodotto principale
                     $product = Product::create([
                         'product_type_id' => $productType->id,
@@ -80,8 +82,11 @@ class ImportWoocommerceCommand extends Command
                             'name' => new TranslatedText(collect([
                                 'it' => new Text($woo->name)
                             ])),
+                            'description_intro' => new TranslatedText(collect([
+                                'it' => new Text($this->_getDescription($woo->descri_short)),
+                            ])),
                             'description' => new TranslatedText(collect([
-                                'it' => new Text($description),
+                                'it' => new Text($this->_getDescription($woo->descri)),
                             ]))
                         ],
                     ]);
@@ -89,6 +94,8 @@ class ImportWoocommerceCommand extends Command
                     $this->_setImages($woo->imgs, $product);
 
                     $this->_setTags($woo->tag, $product);
+
+                    $this->_setCollections($product);
 
                     /*
                      * lo crea in automatico con il nome
@@ -385,5 +392,26 @@ class ImportWoocommerceCommand extends Command
         }
 
         return $result;
+    }
+
+    private function _getDescription($description) {
+       
+        $description = trim($description);
+
+        if(!empty($description))
+            $description = str_replace('\n', '', $description);
+
+        return $description;
+    }
+
+    private function _setCollections($product) {
+        $handle = 'filati';
+        $url = Url::where('element_type', 'collection')
+                ->where('slug',  $handle)
+                ->first();
+            
+        $collection = $url?->element;
+
+        $product->collections()->syncWithoutDetaching([$collection->id]);
     }
 }

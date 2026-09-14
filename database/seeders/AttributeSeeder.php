@@ -32,10 +32,10 @@ class AttributeSeeder extends AbstractSeeder
                     'system' => false,
                     'position' => $attributeGroup->attributes()->count() + 1,
                     'name' => [
-                        'en' => $attribute->name,
+                        'it' => $attribute->name,
                     ],
                     'description' => [
-                        'en' => $attribute->name,
+                        'it' => $attribute->name,
                     ],
                     'configuration' => (array) $attribute->configuration,
                 ]);

@@ -38,7 +38,7 @@
                 </p>
 
                 <article class="mt-4 text-gray-700">
-                    {!! $this->product->translateAttribute('description') !!}
+                    {!! $this->product->translateAttribute('description_intro') !!}
                 </article>
 
                 <form class="mt-4">
@@ -84,5 +84,10 @@
                 </form>
             </div>
         </div>
+
+        <article class="mt-4 text-gray-700">
+                    {!! $this->product->translateAttribute('description') !!}
+        </article>
+
     </div>
 </section>
