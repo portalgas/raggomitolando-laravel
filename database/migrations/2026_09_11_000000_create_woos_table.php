@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('sku')->nullable()->default(null);
             $table->integer('stock')->nullable()->default(null);
             $table->float('price')->nullable()->default(null);
+            $table->longText('tree')->nullable()->default(null);
             $table->longText('tag')->nullable()->default(null);
             $table->longText('imgs')->nullable()->default(null);
             $table->longText('brand')->nullable()->default(null);

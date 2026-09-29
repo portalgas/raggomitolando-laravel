@@ -7,6 +7,7 @@ use Lunar\FieldTypes\TranslatedText;
 use Lunar\Models\Attribute;
 use Lunar\Models\AttributeGroup;
 use Lunar\Models\ProductType;
+use Lunar\Models\Product;
 
 class ProductAttributeSeeder extends Seeder
 {
@@ -14,7 +15,9 @@ class ProductAttributeSeeder extends Seeder
     {
         // 1. Recupera o crea il gruppo di attributi predefinito per i prodotti (es. "Dettagli Prodotto")
         $attributeGroup = AttributeGroup::firstOrCreate(
-            ['handle' => 'details'],
+            [
+                'attributable_type' => 'product', 
+                'handle' => 'details'],
             [
                 'name' => [
                     'it' => 'Dettagli'
