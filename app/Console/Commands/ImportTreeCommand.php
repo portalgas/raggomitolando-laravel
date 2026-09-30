@@ -24,7 +24,7 @@ class ImportTreeCommand extends Command
      */
     protected $signature = 'app:import-tree';
 
-    private $_collection_group = 'principale';
+    private $_collection_group = 'principale4';
 
     /**
      * La descrizione del comando.
@@ -35,6 +35,9 @@ class ImportTreeCommand extends Command
     {
         $defaultLanguage = Language::getDefault();
         
+        /*
+         * crea la collection group 
+         * */
         $group = CollectionGroup::where('handle', $this->_collection_group)->first();
         if(empty($group)) {
             $group = CollectionGroup::create([
@@ -62,58 +65,78 @@ class ImportTreeCommand extends Command
                         $tree = trim($tree);
                         $items = explode('>', $tree);
                         $this->info(""); 
-                        $this->info("tree [$tree]"); 
-                        foreach($items as $numResult2 => $item) {
+                        $this->info("Elaboro l'alberatura [$tree]"); 
+                        foreach($items as $numItem => $item) {
 
                             $item = trim($item);
-                            
+
+                            $parent_name = null;     
+                            $parent_parent_name = null;                            
+                            if($numItem>0 && array_key_exists(($numItem-1), $items)) {
+                                $parent_name = trim($items[($numItem-1)]);
+                                $this->info("[{$item}] ha come parent_name [$parent_name]"); 
+                            }
+                            if($numItem===2 && array_key_exists(($numItem-2), $items)) {
+                                $parent_parent_name = trim($items[($numItem-2)]);
+                                $this->info("[{$item}] ha come parent_parent_name [$parent_parent_name]"); 
+                            }
+
+                            /*
+                            * verifico se e' stata gia' creata
+                            * ricerco per nome ed esentuale parent (ci sono nomi duplicati)
+                            * */                            
                             $exists = Collection::where('collection_group_id', $group->id)
-                                                ->where("attribute_data->name->value->{$defaultLanguage->code}", $item)
-                                                ->exists();
-
+                                                ->where("attribute_data->name->value->{$defaultLanguage->code}", $item);
+                            if(!empty($parent_name))
+                                $exists = $exists->where("attribute_data->parent_name->value", $parent_name);
+                            
+                            $exists = $exists->exists();
                             if (!$exists) {
-
+                                
                                 /*
-                                 * recupero parent
-                                 * */
-                                $parentCollection = null;
-                                $parent_name = null;
-                                $parentCollection = Collection::where('collection_group_id', $group->id);
-                                if (array_key_exists(($numResult2-1), $items)) {
-                                    $parent_name = trim($items[($numResult2-1)]);
-                                    $parentCollection = $parentCollection->where("attribute_data->name->value->{$defaultLanguage->code}", $parent_name);
-                                    $this->info("parent_name [$parent_name]"); 
-                                }
+                                * recupero parent
+                                * */
+                                $parentCollection = null; 
+                                if($numItem>0) {
+                                    $parentCollection = Collection::where('collection_group_id', $group->id);
+                                    if(!empty($parent_name)) {
+                                        $parentCollection = $parentCollection->where("attribute_data->name->value->{$defaultLanguage->code}", $parent_name);
+                                    }
 
-                                if (array_key_exists(($numResult2-2), $items)) {
-                                    $parent_parent_name = trim($items[($numResult2-2)]);
-                                    $parentCollection = $parentCollection->where("attribute_data->parent_name->value", $parent_parent_name);
-                                    $this->info("parent_parent_name [$parent_parent_name]"); 
+                                    if(!empty($parent_parent_name)) {
+                                        $parentCollection = $parentCollection->where("attribute_data->parent_name->value", $parent_parent_name);
+                                    }
+                                    
+                                    $this->info($parentCollection->toRawSql()); 
+                                    $parentCollection = $parentCollection->first();      
                                 }
-                                $this->info($parentCollection->toRawSql()); 
-                                $parentCollection = $parentCollection->first();  
 
                                 if(empty($parentCollection)) {
-                                    $this->info("Collection [$item] NON esiste => la creo"); 
+                                    $this->info("Collection [$item] NON esiste => la creo come ROOT"); 
                                     
                                 }
                                 else {
-                                    $this->info("Collection [$item] NON esiste => la creo figlio di ".$parentCollection->attr('name')." ({$parentCollection->id})"); 
-                                    $parent_id = $parentCollection->id;
+                                    $this->info("Collection [$item] NON esiste => la creo figlio di [".$parentCollection->attr('name')."] ({$parentCollection->id})"); 
                                 }
 
-                                $collection = Collection::create([
-                                    'collection_group_id' => $group->id,
-                                    'attribute_data' => [
-                                        'name' => new TranslatedText([
-                                            'it' => new Text($item),
-                                        ]),
-                                        'parent_name' => new Text($parent_name)
-                                    ],
-                                ], $parentCollection);
+                                $datas = ['collection_group_id' => $group->id,
+                                          'attribute_data' => [
+                                            'name' => new TranslatedText([
+                                                'it' => new Text($item)]),
+                                            'parent_name' => new Text($parent_name)
+                                         ]];
+
+                                $this->info(json_encode($datas, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+                                if (1==1) {
+                                    $collection = Collection::create($datas, $parentCollection);
+                                }
                             }
                             else {
-                                $this->info("Collection [$item] esiste già => salto");
+                                if(!empty($parent_name))
+                                    $this->info("Collection [$item] esiste già con parent_name [{$parent_name}] => salto");
+                                else
+                                    $this->info("Collection [$item] esiste già con ROOT => salto");
                             }
 
                         } // end foreach($items as $item) 
