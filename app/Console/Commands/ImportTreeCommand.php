@@ -24,7 +24,7 @@ class ImportTreeCommand extends Command
      */
     protected $signature = 'app:import-tree';
 
-    private $_collection_group = 'principale4';
+    private $_collection_group_handle = 'main';
 
     /**
      * La descrizione del comando.
@@ -38,11 +38,11 @@ class ImportTreeCommand extends Command
         /*
          * crea la collection group 
          * */
-        $group = CollectionGroup::where('handle', $this->_collection_group)->first();
+        $group = CollectionGroup::where('handle', $this->_collection_group_handle)->first();
         if(empty($group)) {
             $group = CollectionGroup::create([
-                    'name' => ucfirst($this->_collection_group),
-                    'handle' => $this->_collection_group,
+                    'name' => ucfirst($this->_collection_group_handle),
+                    'handle' => $this->_collection_group_handle,
             ]);
         }
 

@@ -8,6 +8,9 @@
         content="width=device-width, initial-scale=1"
     >
     <title>Demo Storefront</title>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <meta
         name="description"
         content="Example of an ecommerce storefront built with Lunar."
@@ -25,8 +28,9 @@
 </head>
 
 <body class="antialiased text-gray-900">
-@livewire('components.menu-top')
-@livewire('components.navigation')
+
+    {{--@livewire('components.menu-top') --}}
+    {{-- @livewire('components.navigation') --}}
 
     <main>
         {{ $slot }}
@@ -35,6 +39,7 @@
     <x-footer />
 
     @livewireScripts
+
 </body>
 
 </html>

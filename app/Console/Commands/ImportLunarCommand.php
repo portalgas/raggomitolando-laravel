@@ -12,6 +12,7 @@ use Lunar\Models\ProductOption;
 use Lunar\Models\ProductType;
 use Lunar\Models\ProductOptionValue;
 use Lunar\Models\Collection;
+use Lunar\Models\CollectionGroup;
 use Lunar\Models\Url;
 use Lunar\Models\Currency;
 use Lunar\Models\TaxClass;
@@ -28,6 +29,10 @@ class ImportLunarCommand extends Command
      */
     protected $signature = 'app:import-lunar';
 
+    private $_collection_group_handle = 'main';
+    private $_collection_group = null;
+    private $_default_language = null;
+
     /**
      * La descrizione del comando.
      */
@@ -35,16 +40,21 @@ class ImportLunarCommand extends Command
 
     public function handle(): int
     {
-        $defaultLanguage = Language::getDefault();
+        $this->_default_language = Language::getDefault();
         $productType = ProductType::first() ?? ProductType::create(['name' => 'Generale']);
         $currency    = Currency::getDefault();
         $taxClass    = TaxClass::getDefault();
         $colorOption = ProductOption::where('handle', 'colour')->first();
+        $this->_collection_group = CollectionGroup::where('handle', $this->_collection_group_handle)->first();
+        if(empty($this->_collection_group)) {
+            $this->error("Nessuna collection trovata con handle [{$this->_collection_group_handle}]");
+            return Command::FAILURE;
+        }
 
         $product = null;
         $woo_child = null;
         $woos = Woo::whereNull('parent_post_id')
-                                    ->where('id', '=', 1)  // DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG 
+                                 //   ->where('id', '=', 1)  // DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG 
                                     ->get();
         $this->info("Totale righe: " . $woos->count());
         try {
@@ -81,7 +91,7 @@ class ImportLunarCommand extends Command
                     /*
                      * lo crea in automatico con il nome
                     $product->urls()->create([
-                        'language_id' => $defaultLanguage->id,
+                        'language_id' => $this->_default_language->id,
                         'slug'        => $woo->slug,
                         'default'     => true
                     ]);
@@ -134,9 +144,9 @@ class ImportLunarCommand extends Command
                 });            
             } // end foreach ($woos as $numResult => $woo)
         } catch (\Throwable $e) {
-            dump($product);
-            dump($woo);
-            dump($woo_child);
+          //  dump($product);
+          //  dump($woo);
+          //  dump($woo_child);
             $this->error("Errore durante l'elaborazione alla riga con id {$woo->id}: " . $e->getMessage());
             return Command::FAILURE;
         }
@@ -244,6 +254,10 @@ class ImportLunarCommand extends Command
         return $description;
     }
 
+    /*
+     * tree
+     *  Filati > Per composizione > Filati Merino, ...
+     * */
     private function _setCollections($tree, $product) {
 
         if(empty($tree))
@@ -253,20 +267,35 @@ class ImportLunarCommand extends Command
         foreach($trees as $tree) {
             $tree = trim($tree);
             $items = explode('>', $tree);
-            $handle = trim(end($items));
-        
-            $this->info("Associo {$product->attr('name')} alla collection [{$handle}]");
+            $last_key_item = array_key_last($items); 
+            $last_item = trim($items[$last_key_item]); 
+            $this->info("Elaboro l'alberatura [$tree] considero l'ultima foglia [{$last_item}]"); 
 
+            $parent_name = null;                              
+            if(array_key_exists(($last_key_item-1), $items)) {
+                $parent_name = trim($items[($last_key_item-1)]);
+                $this->info("[{$last_item}] ha come parent_name [$parent_name]"); 
+            }
+            
+            $collection = Collection::where('collection_group_id', $this->_collection_group->id)
+                            ->where("attribute_data->name->value->{$this->_default_language->code}", $last_item);
+            if(!empty($parent_name))
+                $collection = $collection->where("attribute_data->parent_name->value", $parent_name);
+
+            $collection = $collection->first();
+            if(!empty($collection)) 
+                $product->collections()->syncWithoutDetaching([$collection->id]);
+            else 
+                $this->error("Collection [{$last_item}] con parent_name [{$parent_name}] non trovata!");     
+            
+            /*
             $url = Url::where('element_type', 'collection')
                     ->where('slug', $handle)
                     ->first();
             $collection = $url?->element;
-            
-            if(!empty($collection)) 
-                $product->collections()->syncWithoutDetaching([$collection->id]);
-            else 
-                $this->error("Collection [{$handle}] non trovata!");
-        }
+            */
+        
+        } // end foreach($trees as $tree)
 
         return true;
     }

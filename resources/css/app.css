@@ -1,3 +1,14 @@
+/*
+ * Contiene le direttive @tailwind da far elaborare a PostCSS
+ */
+
+@import "../../node_modules/preline/variants.css";
+@import "../../node_modules/preline/css/themes/theme.css";
+@import "../../node_modules/@preline/dropdown/variants.css";
+@import "../../node_modules/@preline/dropdown/theme.css";
+/* Optional Preline UI Datepicker Plugin */
+/* @import "../../node_modules/preline/datepicker-styles-utility.css"; */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
