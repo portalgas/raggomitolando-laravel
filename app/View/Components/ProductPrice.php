@@ -22,6 +22,7 @@ class ProductPrice extends Component
      */
     public function __construct($product = null, $variant = null)
     {
+        if(!empty($product->variants) && count($product->variants)>0 && !empty($variant)) // fractis
             $this->price = Pricing::for(
                 $variant ?: $product->variants->first()
             )->get()->matched;

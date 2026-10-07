@@ -1,29 +1,25 @@
-/*
- * Definisce i percorsi dei template in content e le estensioni del tema
-*/
-import forms from '@tailwindcss/forms';
-// import preline from 'preline/plugin';
-
-// module.exports = {  package.json usa "type": "module"
-export default {    
+/** @type {import('tailwindcss').Config} */
+module.exports = {
     content: [
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './vendor/lunarphp/stripe-payments/resources/views/**/*.blade.php',
-        './node_modules/preline/dist/*.js',
-        './node_modules/@preline/dropdown/*.js',
+
+       './node_modules/flowbite'
     ],
-    content: [],
+    // Aggiungi la safelist per le classi grid-cols
+    safelist: [
+        {
+           pattern: /^grid-cols-[1-9]|1[0-2]$/,
+        }
+    ],    
     theme: {
-        extend: {
-            colors: {
-                border: 'var(--border, #e5e7eb)',
-            },
-          }
+        extend: {                    
+        }
     },
     plugins: [
-        // require('@tailwindcss/forms'), require('preline/plugin')
-        forms,
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/typography'),
+        require('flowbite/plugin'),
     ],
 };
-

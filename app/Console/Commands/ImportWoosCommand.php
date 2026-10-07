@@ -156,9 +156,9 @@ class ImportWoosCommand extends Command
       
             $this->line("Elaborata riga {$rowIndex}: [$colonnaName]"); // . implode(' | ', $row));
 
-            if(strpos('id:', $colonnaPostParentid)!==false) {
+            if(strpos($colonnaPostParentid, 'id:')!==false) {
                 $colonnaPostParentid = str_replace('id:', '', $colonnaPostParentid);
-                if(empty($colonnaPostParentid)) $colonnaPostParentid = null;    
+                if(empty($colonnaPostParentid)) $colonnaPostParentid = null; 
             }
             else
                 $colonnaPostParentid = null; 

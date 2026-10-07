@@ -54,7 +54,7 @@ class ImportLunarCommand extends Command
         $product = null;
         $woo_child = null;
         $woos = Woo::whereNull('parent_post_id')
-                                 //   ->where('id', '=', 1)  // DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG 
+                                  //  ->where('id', '=', 1)  // DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG 
                                     ->get();
         $this->info("Totale righe: " . $woos->count());
         try {

@@ -1,60 +1,97 @@
-  <nav class="max-w-340 w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between">
-    <div class="flex items-center justify-between">
-      <a class="flex-none text-xl font-semibold text-foreground focus:outline-hidden focus:opacity-80" href="#" aria-label="Brand">
-        Brand
-      </a>
-      <div class="sm:hidden">
-        <button type="button" class="hs-collapse-toggle relative size-9 flex justify-center items-center gap-x-2 rounded-lg bg-layer border border-layer-line text-layer-foreground shadow-2xs hover:bg-layer-hover focus:outline-hidden focus:bg-layer-focus disabled:opacity-50 disabled:pointer-events-none" id="hs-navbar-example-collapse" aria-expanded="false" aria-controls="hs-navbar-example" aria-label="Toggle navigation" data-hs-collapse="#hs-navbar-example">
-          <svg class="hs-collapse-open:hidden shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
-          <svg class="hs-collapse-open:block hidden shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-          <span class="sr-only">Toggle navigation</span>
-        </button>
-      </div>
-    </div>
-    <div id="hs-navbar-example" class="hidden hs-collapse overflow-hidden transition-all duration-300 basis-full grow sm:block" aria-labelledby="hs-navbar-example-collapse" role="region">
-      <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
-        <a class="font-medium text-primary-active focus:outline-hidden" href="#" aria-current="page">Landing</a>
-        <a class="text-sm text-navbar-nav-foreground hover:text-primary-hover focus:outline-hidden focus:text-primary-focus" href="#">Account</a>
-        <a class="text-sm text-navbar-nav-foreground hover:text-primary-hover focus:outline-hidden focus:text-primary-focus" href="#">Work</a>
-        <a class="text-sm text-navbar-nav-foreground hover:text-primary-hover focus:outline-hidden focus:text-primary-focus" href="#">Blog</a>
-        <div class="hs-dropdown [--strategy:static] sm:[--strategy:fixed] [--adaptive:none] sm:[--adaptive:adaptive] ">
-          <button id="hs-navbar-example-dropdown" type="button" class="hs-dropdown-toggle flex items-center w-full text-sm text-navbar-nav-foreground hover:text-primary-hover focus:outline-hidden focus:text-primary-focus" aria-haspopup="menu" aria-expanded="false" aria-label="Mega Menu">
-            Dropdown
-            <svg class="hs-dropdown-open:-rotate-180 sm:hs-dropdown-open:rotate-0 duration-300 ms-1 shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-          </button>
+<ul class="flex items-center space-x-1 text-sm font-medium text-gray-700 ml-auto justify-end">
+  
+  <!-- Eventi (Dropdown 1° livello) -->
+  <li 
+    class="relative" 
+    x-data="{ open: false }" 
+    @mouseenter="open = true" 
+    @mouseleave="open = false"
+    @click.outside="open = false"
+  >
+    <button 
+      type="button" 
+      @click="open = !open"
+      class="inline-flex items-center px-3 py-2 rounded-md hover:bg-gray-100 hover:text-gray-900 focus:outline-none transition-colors"
+    >
+      Eventi
+      <svg class="w-4 h-4 ml-1 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
 
-          <div class="hs-dropdown-menu transition-[opacity,margin] ease-in-out duration-150 hs-dropdown-open:opacity-100 opacity-0 sm:w-48 z-10 sm:bg-dropdown sm:border sm:border-dropdown-line sm:shadow-md rounded-lg p-1 space-y-1 before:absolute top-full before:-top-5 before:inset-s-0 before:w-full before:h-5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="hs-navbar-example-dropdown">
-            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-dropdown-item-foreground hover:bg-dropdown-item-hover focus:outline-hidden focus:bg-dropdown-item-focus" href="#">
-              About
-            </a>
-            <div class="hs-dropdown [--strategy:static] sm:[--strategy:absolute] [--adaptive:none] relative">
-              <button id="hs-navbar-example-dropdown-sub" type="button" class="hs-dropdown-toggle w-full flex justify-between items-center text-sm text-dropdown-item-foreground rounded-lg py-2 px-3 hover:bg-dropdown-item-hover focus:outline-hidden focus:bg-dropdown-item-focus">
-                Sub Menu
-                <svg class="hs-dropdown-open:-rotate-180 sm:hs-dropdown-open:-rotate-90 sm:-rotate-90 duration-300 ms-2 shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </button>
+    <!-- Sub-menu Eventi (2° livello) -->
+    <div 
+      x-show="open" 
+      x-transition:enter="transition ease-out duration-100"
+      x-transition:enter-start="opacity-0 scale-95"
+      x-transition:enter-end="opacity-100 scale-100"
+      x-transition:leave="transition ease-in duration-75"
+      x-transition:leave-start="opacity-100 scale-100"
+      x-transition:leave-end="opacity-0 scale-95"
+      class="absolute left-0 top-full w-64 pt-1 z-50"
+      style="display: none;"
+    >
+      <ul class="bg-white border border-gray-100 rounded-md shadow-lg py-1">
+        <li><a href="https://www.raggomitolando.com/lezioni-individuali/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">Lezioni individuali</a></li>
+        <li><a href="https://www.raggomitolando.com/settembre-2026-corsi-di-maglia-uncinetto-workshop-e-molto-altro/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">Settembre 2026</a></li>
+        <li><a href="https://www.raggomitolando.com/giugno-2026-corsi-di-maglia-uncinetto-workshop-e-molto-altro/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">Giugno 2026</a></li>
+        <li><a href="https://www.raggomitolando.com/maggio-2026-corsi-di-maglia-uncinetto-workshop-e-molto-altro/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">Maggio 2026</a></li>
+        <li><a href="https://www.raggomitolando.com/aprile-2026-corsi-di-maglia-uncinetto-workshop-e-molto-altro/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">Aprile 2026</a></li>
+        <li><a href="https://www.raggomitolando.com/eventi-marzo-2025-2/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">Marzo 2026</a></li>
+        <li><a href="https://www.raggomitolando.com/febbraio-2026-corsi-di-magliauncinetto-e-molto-altro/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">Febbraio 2026</a></li>
+        <li><a href="https://www.raggomitolando.com/gennaio-2026-corsi-di-magliauncinetto-e-molto-altro/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">Gennaio 2026</a></li>
+    </ul> 
 
-              <div class="hs-dropdown-menu transition-[opacity,margin] ease-in-out duration-150 hs-dropdown-open:opacity-100 opacity-0 sm:w-48 hidden z-10 sm:mt-2 sm:bg-dropdown sm:border sm:border-dropdown-line sm:shadow-md rounded-lg before:absolute before:-inset-e-5 before:top-0 before:h-full before:w-5 sm:mx-2.5! top-0 inset-e-full" role="menu" aria-orientation="vertical" aria-labelledby="hs-navbar-example-dropdown-sub">
-                <div class="p-1 space-y-1">
-                  <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-dropdown-item-foreground hover:bg-dropdown-item-hover focus:outline-hidden focus:bg-dropdown-item-focus" href="#">
-                    About
-                  </a>
-                  <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-dropdown-item-foreground hover:bg-dropdown-item-hover focus:outline-hidden focus:bg-dropdown-item-focus" href="#">
-                    Downloads
-                  </a>
-                  <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-dropdown-item-foreground hover:bg-dropdown-item-hover focus:outline-hidden focus:bg-dropdown-item-focus" href="#">
-                    Team Account
-                  </a>
-                </div>
-              </div>
-            </div>
-            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-dropdown-item-foreground hover:bg-dropdown-item-hover focus:outline-hidden focus:bg-dropdown-item-focus" href="#">
-              Downloads
-            </a>
-            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-dropdown-item-foreground hover:bg-dropdown-item-hover focus:outline-hidden focus:bg-dropdown-item-focus" href="#">
-              Team Account
-            </a>
-          </div>
-        </div>
-      </div>
+  <!-- Il nostro progetto -->
+  <li 
+    class="relative" 
+    x-data="{ open: false }" 
+    @mouseenter="open = true" 
+    @mouseleave="open = false"
+    @click.outside="open = false"
+  >
+    <a 
+      href="https://www.raggomitolando.com/il-nostro-progetto/" 
+      class="inline-flex items-center px-3 py-2 rounded-md font-semibold text-gray-900 bg-gray-100 transition-colors"
+    >
+      Il nostro progetto
+      <svg class="w-4 h-4 ml-1 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </a>
+    <div 
+      x-show="open" 
+      x-transition:enter="transition ease-out duration-100"
+      x-transition:enter-start="opacity-0 scale-95"
+      x-transition:enter-end="opacity-100 scale-100"
+      x-transition:leave="transition ease-in duration-75"
+      x-transition:leave-start="opacity-100 scale-100"
+      x-transition:leave-end="opacity-0 scale-95"
+      class="absolute left-0 top-full w-56 pt-1 z-50"
+      style="display: none;"
+    >
+      <ul class="bg-white border border-gray-100 rounded-md shadow-lg py-1">
+        <li><a href="https://www.raggomitolando.com/ritrovarci-tra-i-fili-2/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">Ritrovarci tra i fili</a></li>
+        <li><a href="https://www.raggomitolando.com/la-nostra-filosofia/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">la nostra FILOsofia</a></li>
+        <li><a href="https://www.raggomitolando.com/chi-siamo/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">Chi siamo</a></li>
+        <li><a href="https://www.raggomitolando.com/la-nostra-storia/" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">la nostra storia</a></li>
+        <li><a href="https://game.raggomitolando.com" target="_blank" rel="noopener noreferrer" class="block px-4 py-2 hover:bg-gray-50 hover:text-gray-900">Game</a></li>
+      </ul>
     </div>
-  </nav>
+  </li>
+
+  <!-- I miei dati -->
+  <li>
+    <a href="https://www.raggomitolando.com/my-account/" class="block px-3 py-2 rounded-md hover:bg-gray-100 hover:text-gray-900 transition-colors">
+      I miei dati
+    </a>
+  </li>
+
+  <!-- Logout -->
+  <li>
+    <a href="https://www.raggomitolando.com/my-login-raggo22_to/?action=logout&amp;redirect_to=https%3A%2F%2Fwww.raggomitolando.com%2Fil-nostro-progetto%2F&amp;_wpnonce=5d752ca3de" class="block px-3 py-2 rounded-md text-red-600 hover:bg-red-50 transition-colors">
+      Logout
+    </a>
+  </li>
+
+</ul>

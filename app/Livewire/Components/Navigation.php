@@ -30,7 +30,7 @@ class Navigation extends Component
     {
         // return Collection::with(['defaultUrl'])->get()->toTree();
 
-        $mainGroup = CollectionGroup::where('handle', 'principale4')->first();
+        $mainGroup = CollectionGroup::where('handle', 'main')->first();
 
         $results = $mainGroup
             ?->collections()
