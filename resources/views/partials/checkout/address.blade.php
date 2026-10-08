@@ -32,7 +32,7 @@
             @if ($step == $currentStep)
                 <div class="grid grid-cols-6 gap-4">
                     <x-input.group class="col-span-3"
-                                   label="First name"
+                                   :label="__('lunar::checkout.first_name')"
                                    :errors="$errors->get($type . '.first_name')"
                                    required>
                         <x-input.text wire:model.live="{{ $type }}.first_name"
@@ -40,7 +40,7 @@
                     </x-input.group>
 
                     <x-input.group class="col-span-3"
-                                   label="Last name"
+                                   :label="__('lunar::checkout.last_name')"
                                    :errors="$errors->get($type . '.last_name')"
                                    required>
                         <x-input.text wire:model.live="{{ $type }}.last_name"
@@ -48,19 +48,19 @@
                     </x-input.group>
 
                     <x-input.group class="col-span-6"
-                                   label="Company name"
+                                   :label="__('lunar::checkout.company_name')"
                                    :errors="$errors->get($type . '.company_name')">
                         <x-input.text wire:model.live="{{ $type }}.company_name" />
                     </x-input.group>
 
                     <x-input.group class="col-span-6 sm:col-span-3"
-                                   label="Contact phone"
+                                   :label="__('lunar::checkout.contact_phone')"
                                    :errors="$errors->get($type . '.contact_phone')">
                         <x-input.text wire:model.live="{{ $type }}.contact_phone" />
                     </x-input.group>
 
                     <x-input.group class="col-span-6 sm:col-span-3"
-                                   label="Contact email"
+                                   :label="__('lunar::checkout.contact_email')"
                                    :errors="$errors->get($type . '.contact_email')"
                                    required>
                         <x-input.text wire:model.live="{{ $type }}.contact_email"
@@ -73,7 +73,7 @@
                     </div>
 
                     <x-input.group class="col-span-3 sm:col-span-2"
-                                   label="Address line 1"
+                                   :label="__('lunar::checkout.address_line_one')"
                                    :errors="$errors->get($type . '.line_one')"
                                    required>
                         <x-input.text wire:model.live="{{ $type }}.line_one"
@@ -81,19 +81,19 @@
                     </x-input.group>
 
                     <x-input.group class="col-span-3 sm:col-span-2"
-                                   label="Address line 2"
+                                   :label="__('lunar::checkout.address_line_two')"
                                    :errors="$errors->get($type . '.line_two')">
                         <x-input.text wire:model.live="{{ $type }}.line_two" />
                     </x-input.group>
 
                     <x-input.group class="col-span-3 sm:col-span-2"
-                                   label="Address line 3"
+                                   :label="__('lunar::checkout.address_line_three')"
                                    :errors="$errors->get($type . '.line_three')">
                         <x-input.text wire:model.live="{{ $type }}.line_three" />
                     </x-input.group>
 
                     <x-input.group class="col-span-3 sm:col-span-2"
-                                   label="City"
+                                   :label="__('lunar::checkout.city')"
                                    :errors="$errors->get($type . '.city')"
                                    required>
                         <x-input.text wire:model.live="{{ $type }}.city"
@@ -101,13 +101,13 @@
                     </x-input.group>
 
                     <x-input.group class="col-span-3 sm:col-span-2"
-                                   label="State / Province"
+                                   :label="__('lunar::checkout.state')"
                                    :errors="$errors->get($type . '.state')">
                         <x-input.text wire:model.live="{{ $type }}.state" />
                     </x-input.group>
 
                     <x-input.group class="col-span-3 sm:col-span-2"
-                                   label="Postcode"
+                                   :label="__('lunar::checkout.postcode')"
                                    :errors="$errors->get($type . '.postcode')"
                                    required>
                         <x-input.text wire:model.live="{{ $type }}.postcode"
@@ -115,7 +115,7 @@
                     </x-input.group>
 
                     <x-input.group class="col-span-6"
-                                   label="Country"
+                                   :label="__('lunar::checkout.country')"
                                    required>
                         <select class="w-full p-3 border border-gray-200 rounded-lg sm:text-sm"
                                 wire:model.live="{{ $type }}.country_id">

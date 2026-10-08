@@ -13,7 +13,6 @@
                 @foreach($this->collections as $rootCollection)
                     @php
                         $hasChildren = $rootCollection->children->isNotEmpty();
-                        $rootUrl = $rootCollection->urls->first()?->slug ?? '#';
                     @endphp  
                     @if($hasChildren>0)
                         <li>
@@ -24,7 +23,7 @@
                         </li>                    
                     @else
                         <li>
-                            <a href="{{ url($rootUrl) }}" class="block py-2 px-3 text-heading hover:text-fg-brand border-b border-light hover:bg-neutral-secondary-soft md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0" aria-current="page">{{ $rootCollection->attr('name') }}</a>
+                            <a href="{{ route('collection.view', $rootCollection->defaultUrl->slug) }}" class="block py-2 px-3 text-heading hover:text-fg-brand border-b border-light hover:bg-neutral-secondary-soft md:hover:bg-transparent md:border-0 md:hover:text-fg-brand md:p-0" aria-current="page">{{ $rootCollection->attr('name') }}</a>
                         </li>
                     @endif
                 @endforeach
@@ -41,29 +40,23 @@
         @if($hasChildren>0)    
             <div id="mega-menu-full-dropdown-{{ $rootCollection->id }}" class="hidden mt-1 bg-neutral-primary-soft border-default shadow-xs border-y">
                 <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-heading grid-cols-{{ $rootCollection->children->count() }} md:px-6">
-                    @foreach($rootCollection->children as $subCategory)
-                        @php
-                            $subUrl = $subCategory->urls->first()?->slug ?? '#';
-                        @endphp
+                    @foreach($rootCollection->children as $subCollection)
                         @if ($loop->first)
                             <ul aria-labelledby="mega-menu-full-dropdown-button-{{ $rootCollection->id }}">
                         @else
                             <ul>
                         @endif                        
                             <li>
-                                <a href="{{ url($subUrl) }}" class="block p-3 rounded-lg hover:bg-neutral-secondary-medium underline">
-                                    <div class="font-semibold">{{ $subCategory->attr('name') }}</div>
-                                    <span class="text-sm text-body">{{ $subCategory->attr('description') }}</span>
+                                <a href="{{ route('collection.view', $subCollection->defaultUrl->slug) }}" class="block p-3 rounded-lg hover:bg-neutral-secondary-medium underline">
+                                    <div class="font-semibold">{{ $subCollection->attr('name') }}</div>
+                                    <span class="text-sm text-body">{{ $subCollection->attr('description') }}</span>
                                 </a>
                             </li>
-                            @foreach($subCategory->children as $subSubCategory)
-                                @php
-                                    $subUrl = $subSubCategory->urls->first()?->slug ?? '#';
-                                @endphp
+                            @foreach($subCollection->children as $subSubCollection)
                                 <li>
-                                    <a href="{{ url($subUrl) }}" class="block p-3 rounded-lg hover:bg-neutral-secondary-medium">
-                                        <div class="font-semibold">{{ $subSubCategory->attr('name') }}</div>
-                                        <span class="text-sm text-body">{{ $subSubCategory->attr('description') }}</span>
+                                    <a href="{{ route('collection.view', $subSubCollection->defaultUrl->slug) }}" class="block p-3 rounded-lg hover:bg-neutral-secondary-medium">
+                                        <div class="font-semibold">{{ $subSubCollection->attr('name') }}</div>
+                                        <span class="text-sm text-body">{{ $subSubCollection->attr('description') }}</span>
                                     </a>
                                 </li>
                             @endforeach                                                          

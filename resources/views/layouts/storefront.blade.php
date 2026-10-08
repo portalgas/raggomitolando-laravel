@@ -32,6 +32,7 @@
     @livewire('components.menu-top')
     @livewire('components.navigation')
 
+
     <main>
         {{ $slot }}
     </main>
@@ -41,6 +42,7 @@
     @livewireScripts
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script> <!-- fractis -->
+
 </body>
 
 </html>

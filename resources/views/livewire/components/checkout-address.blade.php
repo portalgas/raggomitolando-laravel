@@ -14,7 +14,7 @@
     <div class="p-4 space-y-4">
         @if ($editing)
             <div class="grid grid-cols-2 gap-4">
-                <x-input.group label="First name"
+                <x-input.group label="__('lunar::checkout.first_name')"
                                :errors="$errors->get('address.first_name')"
                                required>
                     <x-input.text wire:model.live="address.first_name"
