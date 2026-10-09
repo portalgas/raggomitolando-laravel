@@ -1,25 +1,21 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-    content: [
-        './resources/**/*.blade.php',
-        './resources/**/*.js',
-        './vendor/lunarphp/stripe-payments/resources/views/**/*.blade.php',
+import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
 
-       './node_modules/flowbite'
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: [
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
     ],
-    // Aggiungi la safelist per le classi grid-cols
-    safelist: [
-        {
-           pattern: /^grid-cols-[1-9]|1[0-2]$/,
-        }
-    ],    
+
     theme: {
-        extend: {                    
-        }
+        extend: {
+            fontFamily: {
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+        },
     },
-    plugins: [
-        require('@tailwindcss/forms'),
-        require('@tailwindcss/typography'),
-        require('flowbite/plugin'),
-    ],
+
+    plugins: [forms],
 };

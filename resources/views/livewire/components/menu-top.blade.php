@@ -40,13 +40,13 @@
       </div>
    </li>
    <li>
-      <a href="#" id="topMenuNotroProgetto" data-dropdown-toggle="multi-dropdown-nostro-progetto" class="flex items-center px-3 py-2 rounded-md hover:bg-gray-100 hover:text-gray-900 transition-colors">
+      <a href="#" id="topMenuNostroProgetto" data-dropdown-toggle="multi-dropdown-nostro-progetto" class="flex items-center px-3 py-2 rounded-md hover:bg-gray-100 hover:text-gray-900 transition-colors">
       Il nostro progetto
         <svg class="w-4 h-4 ms-1.5 -me-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/></svg>
       </a>    
       <!-- Dropdown menu -->
       <div id="multi-dropdown-nostro-progetto" class="z-[100] hidden bg-white border border-default-medium rounded-base shadow-lg w-44">
-          <ul class="p-2 text-sm text-body font-medium" aria-labelledby="topMenuNotroProgetto">
+          <ul class="p-2 text-sm text-body font-medium" aria-labelledby="topMenuNostroProgetto">
           <li><a href="https://www.raggomitolando.com/ritrovarci-tra-i-fili-2/" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Ritrovarci tra i fili</a></li>
           <li><a href="https://www.raggomitolando.com/la-nostra-filosofia/" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">La nostra FILOsofia</a></li>
           <li><a href="https://www.raggomitolando.com/chi-siamo/" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Chi siamo</a></li>
@@ -56,14 +56,7 @@
       </div>
   </li>
   <li>
-    <a href="https://www.raggomitolando.com/my-account/" class="block px-3 py-2 rounded-md hover:bg-gray-100 hover:text-gray-900 transition-colors">
-      I miei dati
-    </a>
-  </li>
-<li>
-    <a href="https://www.raggomitolando.com/my-login-raggo22_to/?action=logout&amp;redirect_to=https%3A%2F%2Fwww.raggomitolando.com%2Fil-nostro-progetto%2F&amp;_wpnonce=5d752ca3de" class="block px-3 py-2 rounded-md text-red-600 hover:bg-red-50 transition-colors">
-      Logout
-    </a>
+      @livewire('welcome.navigation')
   </li>
   <li>
     @livewire('components.cart')

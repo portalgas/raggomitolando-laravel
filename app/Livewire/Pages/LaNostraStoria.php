@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Pages;
 
 use Livewire\Component;
 
@@ -8,6 +8,6 @@ class LaNostraStoria extends Component
 {
     public function render()
     {
-        return view('livewire.la-nostra-storia');
+        return view('livewire.pages.la-nostra-storia');
     }
 }

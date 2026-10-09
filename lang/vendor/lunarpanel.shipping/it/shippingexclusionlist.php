@@ -1,6 +1,19 @@
 <?php
 
 return [
-    'label_singular' => 'Lista di esclusione',
-    'label_plural' => 'Liste di esclusione',
+    'label' => 'Shipping Exclusion List',
+    'label_plural' => 'Shipping Exclusion Lists',
+    'form' => [
+        'name' => [
+            'label' => 'Name',
+        ],
+    ],
+    'table' => [
+        'name' => [
+            'label' => 'Name',
+        ],
+        'exclusions_count' => [
+            'label' => 'No. Products',
+        ],
+    ],
 ];

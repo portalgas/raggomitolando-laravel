@@ -265,7 +265,8 @@ class CheckoutPage extends Component
      */
     public function getCountriesProperty(): Collection
     {
-        return Country::whereIn('iso3', ['GBR', 'USA'])->get();
+        // return Country::whereIn('iso3', ['GBR', 'USA'])->get();
+        return Country::get();
     }
 
     /**

@@ -14,21 +14,21 @@
     <div class="p-4 space-y-4">
         @if ($editing)
             <div class="grid grid-cols-2 gap-4">
-                <x-input.group label="__('lunar::checkout.first_name')"
+                <x-input.group :label="__('lunar::checkout.first_name')"
                                :errors="$errors->get('address.first_name')"
                                required>
                     <x-input.text wire:model.live="address.first_name"
                                   required />
                 </x-input.group>
 
-                <x-input.group label="Last name"
+                <x-input.group :label="__('lunar::checkout.last_name')"
                                :errors="$errors->get('address.last_name')">
                     <x-input.text wire:model.live="address.last_name" />
                 </x-input.group>
             </div>
 
             <div>
-                <x-input.group label="Company name"
+                <x-input.group :label="__('lunar::checkout.company_name')"
                                :errors="$errors->get('address.company_name')"
                                required>
                     <x-input.text wire:model.live="address.company_name"
@@ -78,7 +78,7 @@
                                   required />
                 </x-input.group>
 
-                <x-input.group label="State / Province"
+                <x-input.group label="Province"
                                :errors="$errors->get('address.state')">
                     <x-input.text wire:model.live="address.state" />
                 </x-input.group>
@@ -96,7 +96,7 @@
                                required>
                     <select class="w-full p-4 text-sm border-2 border-gray-200 rounded-lg"
                             wire:model.live="address.country_id">
-                        <option value>Select a country</option>
+                        <option value>{{ __('lunar::checkout.select_country') }}</option>
                         @foreach ($this->countries as $country)
                             <option value="{{ $country->id }}"
                                     wire:key="country_{{ $country->id }}">

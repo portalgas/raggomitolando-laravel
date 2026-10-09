@@ -119,7 +119,7 @@
                                    required>
                         <select class="w-full p-3 border border-gray-200 rounded-lg sm:text-sm"
                                 wire:model.live="{{ $type }}.country_id">
-                            <option value>Select a country</option>
+                            <option value>{{ __('lunar::checkout.select_country') }}</option>
                             @foreach ($this->countries as $country)
                                 <option value="{{ $country->id }}"
                                         wire:key="country_{{ $country->id }}">
@@ -214,7 +214,7 @@
                             wire:target="saveAddress">
                         <span wire:loading.remove
                               wire:target="saveAddress">
-                            Save Address
+                              {{ __('lunar::checkout.save_address') }}
                         </span>
 
                         <span wire:loading

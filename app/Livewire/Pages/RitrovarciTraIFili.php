@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Pages;
 
 use Livewire\Component;
 
@@ -8,6 +8,6 @@ class RitrovarciTraIFili extends Component
 {
     public function render()
     {
-        return view('livewire.ritrovarci-tra-i-fili');
+        return view('livewire.pages.ritrovarci-tra-i-fili');
     }
 }
