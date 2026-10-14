@@ -7,6 +7,9 @@ use App\Livewire\CollectionPage;
 use App\Livewire\Home;
 use App\Livewire\ProductPage;
 use App\Livewire\SearchPage;
+use App\Livewire\Frontend\UserDashboard;
+use App\Livewire\Frontend\UserProfile;
+use App\Livewire\Frontend\OrderDetail;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,12 +35,19 @@ Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
 
 
-Route::view('dashboard', 'dashboard')
+Route::view('dashboard1', 'dashboard')
     ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    ->name('dashboard1');
 
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
+Route::get('/dashboard', UserDashboard::class)->name('dashboard')
+    ->middleware(['auth', 'verified']);
+
+
+Route::get('/profile', UserProfile::class)->name('profile')
+    ->middleware(['auth']);
 
 require __DIR__.'/auth.php';
+
+Route::get('/orders/{order}', OrderDetail::class)
+    ->middleware('auth')
+    ->name('orders.show');

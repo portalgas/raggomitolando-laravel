@@ -4,7 +4,7 @@
      }">
     <button class="grid w-16 h-16 transition border-l border-gray-100 lg:border-l-transparent hover:opacity-75"
             x-on:click="linesVisible = !linesVisible">
-        <span class="sr-only">Cart</span>
+        <span class="sr-only">{{ __('cart/default.cart') }}</span>
 
         <span class="place-self-center">
             <svg xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +70,7 @@
                                                        wire:model.live="lines.{{ $index }}.quantity" />
 
                                                 <p class="ml-2 text-xs">
-                                                    @ {{ $line['unit_price'] }}
+                                                    {{ $line['unit_price'] }}
                                                 </p>
 
                                                 <button class="p-2 ml-auto text-gray-600 transition-colors rounded-lg hover:bg-gray-100 hover:text-gray-700"
@@ -105,13 +105,13 @@
                     </div>
                 @else
                     <p class="py-4 text-sm font-medium text-center text-gray-500">
-                        Your cart is empty
+                        {{ __('cart/default.empty') }}
                     </p>
                 @endif
 
                 <dl class="flex flex-wrap pt-4 mt-6 text-sm border-t border-gray-100">
                     <dt class="w-1/2 font-medium">
-                        Sub Total
+                        {{ __('cart/default.sub_total') }}
                     </dt>
 
                     <dd class="w-1/2 text-right">
@@ -120,7 +120,7 @@
                 </dl>
             @else
                 <p class="py-4 text-sm font-medium text-center text-gray-500">
-                    Your cart is empty
+                {{ __('cart/default.empty') }}
                 </p>
             @endif
         </div>
@@ -130,19 +130,19 @@
                 <button class="block w-full p-3 text-sm font-medium text-blue-800 border border-blue-600 rounded-lg hover:ring-1 hover:ring-blue-600"
                         type="button"
                         wire:click="updateLines">
-                    Update Cart
+                        {{ __('cart/default.btn.update') }}
                 </button>
 
                 <a class="block w-full p-3 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-500"
                    href="{{ route('checkout.view') }}"
                    wire:navigate
                 >
-                    Checkout
+                {{ __('cart/default.btn.checkout') }}
                 </a>
 
                 <a class="inline-block text-sm font-medium text-gray-600 underline hover:text-gray-500"
                    href="{{ url('/') }}">
-                    Continue Shopping
+                   {{ __('cart/default.btn.continue_shopping') }}
                 </a>
             </div>
         @endif

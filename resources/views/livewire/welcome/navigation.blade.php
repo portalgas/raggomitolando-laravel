@@ -27,8 +27,9 @@ new class extends Component
         <!-- Dropdown menu -->
         <div id="multi-dropdown-profile" class="z-[100] hidden bg-white border border-default-medium rounded-base shadow-lg w-44">
             <ul class="p-2 text-sm text-body font-medium" aria-labelledby="topMenuProfilo">
-            <li><a href="{{ route('profile') }}" wire:navigate class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">{{ __('Profile') }}</a></li>
-            <li><a href="#" wire:click="logout" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">{{ __('Log Out') }}</a></li>
+                <li><a href="{{ route('dashboard') }}" wire:navigate class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">{{ __('user/default.dashboard') }}</a></li>
+                <li><a href="{{ route('profile') }}" wire:navigate class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">{{ __('user/default.profile') }}</a></li>
+                <li><a href="#" wire:click="logout" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">{{ __('Log Out') }}</a></li>
             </ul>
         </div>
     @else

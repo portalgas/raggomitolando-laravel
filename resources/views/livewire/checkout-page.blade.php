@@ -20,7 +20,7 @@
                                     </p>
 
                                     <span class="block mt-1 text-xs text-gray-500">
-                                        {{ $line->quantity }} @ {{ $line->subTotal->formatted() }}
+                                        {{ $line->quantity }} @ {{ $line->sub_total?->formatted() }}
                                     </span>
                                 </div>
                             </div>
@@ -78,6 +78,9 @@
             </div>
 
             <div class="space-y-6 lg:col-span-2">
+
+                @include('partials.checkout.account')
+
                 @include('partials.checkout.address', [
                     'type' => 'shipping',
                     'step' => $steps['shipping_address'],

@@ -1,3 +1,5 @@
+<!-- definito in config/livewire.php 'layout' => 'layouts.storefront' -->
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -7,13 +9,13 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>Demo Storefront</title>
+    <title>Raggomitolando</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <meta
         name="description"
-        content="Example of an ecommerce storefront built with Lunar."
+        content="cerchi lana? Raggomitolando è un negozio a Torino in cui troverai filati delle migliori marche a prezzi accessibili, gomitoli, accessori per lavori a maglia, all’uncinetto e al punto croce. Negozio online rivenditore drop design"
     >
     <link
         href="{{ asset('css/app.css') }}"

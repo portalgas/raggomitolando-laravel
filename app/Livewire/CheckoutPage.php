@@ -12,8 +12,13 @@ use Lunar\Models\Cart;
 use Lunar\Models\CartAddress;
 use Lunar\Models\Country;
 
+use Illuminate\Support\Facades\Auth;
+
 class CheckoutPage extends Component
 {
+    public $loginEmail = '';
+    public $loginPassword = '';
+
     /**
      * The Cart instance.
      */
@@ -113,9 +118,43 @@ class CheckoutPage extends Component
         }
 
         // Do we have a shipping address?
-        $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
+        
 
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
+
+        // Se l'utente è autenticato e il carrello NON ha ancora un indirizzo di spedizione
+        if (Auth::check() && !$this->cart->shippingAddress) {
+                
+            // Recupera il primo indirizzo salvato del cliente (o quello di default)
+            $customer = Auth::user()->customers()->first();
+            $defaultAddress = $customer?->addresses()->where('shipping_default', true)->first() 
+                        ?? $customer?->addresses()->first();
+
+            if ($defaultAddress) {
+                // Crea/associa l'indirizzo di spedizione al carrello usando i dati dell'utente
+                $this->cart->shippingAddress()->create([
+                    'country_id' => $defaultAddress->country_id,
+                    'title' => $defaultAddress->title,
+                    'first_name' => $defaultAddress->first_name,
+                    'last_name' => $defaultAddress->last_name,
+                    'line_1' => $defaultAddress->line_1,
+                    'line_2' => $defaultAddress->line_2,
+                    'line_3' => $defaultAddress->line_3,
+                    'city' => $defaultAddress->city,
+                    'state' => $defaultAddress->state,
+                    'postcode' => $defaultAddress->postcode,
+                    'delivery_instructions' => $defaultAddress->delivery_instructions,
+                    'contact_email' => !empty($defaultAddress->contact_email) ? $defaultAddress->contact_email: Auth::user()->email,
+                    'contact_phone' => $defaultAddress->contact_phone,
+                ]);
+                
+                // Ricarica il carrello per aggiornare la relazione
+                $this->cart->refresh();
+            }
+        }
+        else {
+            $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
+        }
 
         $this->determineCheckoutStep();
     }
@@ -300,6 +339,33 @@ class CheckoutPage extends Component
             "{$type}.contact_phone" => 'nullable',
         ];
     }
+
+    public function loginAtCheckout()
+    {
+        $this->validate([
+            'loginEmail' => 'required|email',
+            'loginPassword' => 'required',
+        ]);
+    
+        // Tentativo di autenticazione
+        if (Auth::attempt(['email' => $this->loginEmail, 'password' => $this->loginPassword])) {
+            
+            // Recupera il carrello corrente di sessione e associalo all'utente/customer
+            $this->cart = CartSession::current();
+            if ($this->cart) {
+                $this->cart->update([
+                    'user_id' => Auth::id(),
+                    // Se Lunar gestisce il customer collegato all'utente:
+                    'customer_id' => Auth::user()->customer?->id ?? null,
+                ]);
+            }
+    
+            // Ricarica la pagina per aggiornare lo stato e pre-compilare gli indirizzi
+            return redirect()->request; 
+        }
+    
+        $this->addError('loginEmail', 'Le credenziali non corrette.');
+    }    
 
     public function render(): View
     {
