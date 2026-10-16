@@ -1,5 +1,8 @@
-<ul class="flex items-center space-x-1 text-sm font-medium text-gray-700 ml-auto justify-end">
-  
+<ul class="flex items-center space-x-4 m-5">
+  <li class="mr-auto">
+    <a href="/" rel="home" aria-current="page">
+      <img width="198" height="34" src="https://www.raggomitolando.com/wp-content/uploads/2021/05/logo-label-no-motto.png" alt="logo raggomitolando" decoding="async"></a>
+  </li>
   <li>
       <a href="#" id="topMenuEventi" data-dropdown-toggle="multi-dropdown-eventi" class="flex items-center px-3 py-2 rounded-md hover:bg-gray-100 hover:text-gray-900 transition-colors">
         Eventi

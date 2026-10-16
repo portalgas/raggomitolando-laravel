@@ -1,5 +1,10 @@
 <div>
-    <x-welcome-banner />
+
+    <x-carousel />
+
+    <x-cards-two />
+   
+    <x-cards-models />
 
     <div class="max-w-screen-xl px-4 py-12 mx-auto space-y-12 sm:px-6 lg:px-8">
         @if ($this->saleCollection)

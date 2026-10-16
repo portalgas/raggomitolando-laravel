@@ -12,7 +12,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['"Shadows Into Light Two"', 'ui-sans-serif', 'system-ui', 'sans-serif', ...defaultTheme.fontFamily.sans]
             },
         },
     },

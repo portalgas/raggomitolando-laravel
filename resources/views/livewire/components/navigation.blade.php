@@ -1,9 +1,5 @@
 <nav class="bg-neutral-primary-soft border-default">
     <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
-        <a href="https://flowbite.com" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="https://flowbite.com/docs/images/logo.svg" class="h-7" alt="Flowbite Logo" />
-            <span class="self-center text-xl font-semibold whitespace-nowrap text-heading">Flowbite</span>
-        </a>
         <button data-collapse-toggle="mega-menu-full" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-body rounded-lg md:hidden hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-default" aria-controls="mega-menu-full" aria-expanded="false">
             <span class="sr-only">Open main menu</span>
             <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/></svg>
@@ -39,7 +35,21 @@
         @endphp  
         @if($hasChildren>0)    
             <div id="mega-menu-full-dropdown-{{ $rootCollection->id }}" class="hidden mt-1 bg-neutral-primary-soft border-default shadow-xs border-y">
-                <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-heading grid-cols-{{ $rootCollection->children->count() }} md:px-6">
+                <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-heading 
+                    @if($rootCollection->children->count()===1)
+                        grid-cols-1
+                    @elseif($rootCollection->children->count()===2)
+                        grid-cols-2
+                    @elseif($rootCollection->children->count()===3)
+                        grid-cols-3
+                    @elseif($rootCollection->children->count()===4)
+                        grid-cols-4
+                    @elseif($rootCollection->children->count()===5)
+                        grid-cols-5
+                    @elseif($rootCollection->children->count()===6)
+                        grid-cols-6
+                    @endif
+                     md:px-6"> 
                     @foreach($rootCollection->children as $subCollection)
                         @if ($loop->first)
                             <ul aria-labelledby="mega-menu-full-dropdown-button-{{ $rootCollection->id }}">
@@ -48,7 +58,7 @@
                         @endif                        
                             <li>
                                 <a href="{{ route('collection.view', $subCollection->defaultUrl->slug) }}" class="block p-3 rounded-lg hover:bg-neutral-secondary-medium underline">
-                                    <div class="font-semibold">{{ $subCollection->attr('name') }}</div>
+                                    <div class="font-semibold color-primary">{{ $subCollection->attr('name') }}</div>
                                     <span class="text-sm text-body">{{ $subCollection->attr('description') }}</span>
                                 </a>
                             </li>

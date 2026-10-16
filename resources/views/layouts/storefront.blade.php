@@ -27,14 +27,24 @@
         href="{{ asset('favicon.svg') }}"
     >
     @livewireStyles
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap" rel="stylesheet">   
+    <!-- @import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap'); --> 
+    <style>
+        .color-primary {
+            color: #549d51;
+        }
+    </style>
 </head>
 
 <body class="antialiased text-gray-900">
 
     @livewire('components.menu-top')
     @livewire('components.navigation')
-
-
+   
     <main>
         {{ $slot }}
     </main>
